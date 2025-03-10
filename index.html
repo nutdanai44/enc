@@ -15,7 +15,7 @@
             font-family: Arial, sans-serif;
         }
         img {
-            width: 150px; /* ขนาด Logo */
+            width: 150px;
             height: auto;
             margin-bottom: 20px;
         }
@@ -23,10 +23,14 @@
             font-size: 18px;
             color: #555;
         }
+        a {
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <p>กำลังดาวน์โหลด...</p>
+    <p id="status">กำลังดาวน์โหลด...</p>
+    <a id="apk-link" href="https://raw.githubusercontent.com/nutdanai44/enc/main/MPY_Android.apk" download>Download MPY APK</a>
 
     <script>
         function getMobileOS() {
@@ -42,21 +46,22 @@
 
         window.onload = function () {
             const os = getMobileOS();
-            let downloadUrl = "#"; // ค่าเริ่มต้น
+            const statusText = document.getElementById("status");
+            const apkLink = document.getElementById("apk-link");
 
             if (os === "iOS") {
-                downloadUrl = "itms-services://?action=download-manifest&url=https://s3-mpy.encony.com/encompy/unicorn/enco/distribution/manifest.plist";
+                statusText.innerText = "กำลังดาวน์โหลดสำหรับ iOS...";
+                window.location.href = "itms-services://?action=download-manifest&url=https://s3-mpy.encony.com/encompy/unicorn/enco/distribution/manifest.plist";
             } else if (os === "Android") {
-                downloadUrl = "https://github.com/nutdanai44/enc/blob/main/MPY_Android.apk";
-            } else {
-                document.querySelector("p").innerText = "กรุณาเปิดบนอุปกรณ์มือถือ";
-                return;
-            }
+                statusText.innerText = "กำลังดาวน์โหลด APK...";
 
-            // เริ่มดาวน์โหลดอัตโนมัติ
-            setTimeout(() => {
-                window.location.href = downloadUrl;
-            }, 1000);
+                // Trick ให้เบราว์เซอร์เข้าใจว่าเป็นการกดของผู้ใช้เอง
+                setTimeout(() => {
+                    apkLink.click();
+                }, 1000);
+            } else {
+                statusText.innerText = "กรุณาเปิดบนอุปกรณ์มือถือ";
+            }
         };
     </script>
 </body>
