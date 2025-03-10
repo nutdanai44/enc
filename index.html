@@ -23,10 +23,23 @@
             font-size: 18px;
             color: #555;
         }
+        #download-btn {
+            display: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
-    <p>กำลังดาวน์โหลด...</p>
+    <img src="https://s3-mpy.encony.com/minio/encompy/unicorn/enco/distribution/icon_app.png" > 
+    <p id="status">กำลังดาวน์โหลด...</p>
+    <button id="download-btn">ดาวน์โหลด APK</button>
 
     <script>
         function getMobileOS() {
@@ -42,21 +55,21 @@
 
         window.onload = function () {
             const os = getMobileOS();
-            let downloadUrl = "#"; // ค่าเริ่มต้น
+            const statusText = document.getElementById("status");
+            const downloadBtn = document.getElementById("download-btn");
 
             if (os === "iOS") {
-                downloadUrl = "itms-services://?action=download-manifest&url=https://s3-mpy.encony.com/encompy/unicorn/enco/distribution/manifest.plist";
+                statusText.innerText = "กำลังดาวน์โหลดสำหรับ iOS...";
+                window.location.href = "itms-services://?action=download-manifest&url=https://s3-mpy.encony.com/encompy/unicorn/enco/distribution/manifest.plist";
             } else if (os === "Android") {
-                downloadUrl = "https://s3-mpy.encony.com/minio/encompy/unicorn/enco/distribution/MPY_Android.apk";
+                statusText.innerText = "กดปุ่มด้านล่างเพื่อดาวน์โหลด APK";
+                downloadBtn.style.display = "block"; // แสดงปุ่ม Download
+                downloadBtn.onclick = function () {
+                    window.location.href = "https://s3-mpy.encony.com/minio/encompy/unicorn/enco/distribution/MPY_Android.apk";
+                };
             } else {
-                document.querySelector("p").innerText = "กรุณาเปิดบนอุปกรณ์มือถือ";
-                return;
+                statusText.innerText = "กรุณาเปิดบนอุปกรณ์มือถือ";
             }
-
-            // เริ่มดาวน์โหลดอัตโนมัติ
-            setTimeout(() => {
-                window.location.href = downloadUrl;
-            }, 1000);
         };
     </script>
 </body>
