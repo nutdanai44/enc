@@ -19,7 +19,7 @@
             color: #555;
         }
         #apk-link {
-            display: block;
+            display: none; /* ซ่อนปุ่มโดยค่าเริ่มต้น */
             font-size: 20px;
             color: white;
             background: #007bff;
@@ -59,7 +59,7 @@
                 
                 // ✅ ใช้ direct download link จาก MinIO/S3
                 apkLink.href = "https://s3-mpy.encony.com/encompy/unicorn/enco/distribution/MPY_Android.apk";
-                apkLink.style.display = "inline-block";
+                apkLink.style.display = "inline-block"; // แสดงปุ่มเฉพาะ Android
             } else {
                 statusText.innerText = "กรุณาเปิดบนอุปกรณ์มือถือ";
             }
